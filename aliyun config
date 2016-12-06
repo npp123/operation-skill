@@ -1,0 +1,85 @@
+http://jingyan.baidu.com/article/647f0115bb26817f2048a871.html  jdk
+
+source .bashrc 使环境变量生效
+
+jettyhttps://linux.cn/article-4758-1.html  用户设置成root
+http://ubuntuhandbook.org/index.php/2015/01/install-openjdk-8-ubuntu-14-04-12-04-lts/
+
+redis
+root@21ebdf03a086:/# cd /etc/init.d
+root@21ebdf03a086:/# redis-server &
+注：要先进入"/etc/init.d"目录，再执行"redis-server &"命令启动redis
+
+
+http://blog.csdn.net/defonds/article/details/51644702
+
+
+mysql 编码：
+进入mysql后，敲入命令status，就可以看到mysql的字符编码问题。
+默认如下：
+ Server characterset:    latin1
+ Db  characterset:    latin1
+Client characterset:    latin1
+Conn. characterset:    latin1
+所以在开发时候要改变一下字符，因为Iatin1编码不支持中文。
+[图片]
+2
+解决办法就是更改/etc/mysql/my.cnf文件,在[mysqld]和[mysql]下添加如下内容:
+打开/ect/mysql/my.cnf文件，
+后来查得原来从5版本之后变了，需要这样修改
+[client]
+default-character-set=utf8
+[mysqld]
+character-set-server=utf8
+3
+然后重启mysql server即可,
+命令如下:sudo /etc/init.d/mysql　restart
+然后再查看一下status,
+字符集变为utf-8了!
+如果这四个字符一致，且支持中文编码就不会出现乱码情况。
+
+
+
+node js 安装 
+  1. # apt-get update  
+  2. # apt-get install -y python-software-properties software-properties-common  
+  3. # add-apt-repository ppa:chris-lea/node.js  
+  4. # apt-get update  
+  5. # apt-get install nodejs  
+
+
+安装ssl
+检查是否已安装openssl：
+sudo apt-get install openssl
+如果已安装执行以下操作：
+sudo apt-get install libssl-dev
+sudo apt-get install libssl0.9.8
+
+maven 
+http://www.cnblogs.com/dyllove98/archive/2013/07/08/3177900.html
+
+
+apt-get install mysql-server
+mysql授权用户能进行远程连接
+   grant all privileges on *.* to root@"%" identified by "maxwell" with grant option;
+   flush privileges;
+
+开机自启动
+update-rc.d mysql defaults
+
+Supervisor
+http://wiki.jikexueyuan.com/project/docker-technology-and-combat/supervisor.html
+
+
+docker 
+http://www.open-open.com/lib/view/open1451870095745.html
+
+docker run -d 容器会自己断开，在启动脚本中加这个
+tail -f /var/log/nginx/error.log
+
+外网端口80 映射到9081
+iptables -A PREROUTING -t nat -i eth1 -p tcp --dport 80 -j REDIRECT --to-port 9081
+
+
+
+
