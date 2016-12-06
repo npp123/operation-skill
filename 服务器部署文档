@@ -1,0 +1,57 @@
+
+安装ubuntu系统后:
+
+1.升级vim
+npm install vim
+
+2.安装docker
+1.安装docker 官方apt源公钥：sudo apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys 58118E89F3A912897C070ADBF76221572C52609D
+2.添加apt源：sudo touch /etc/apt/sources.list.d/docker.list && echo "deb https://apt.dockerproject.org/repo ubuntu-xenial main" >>/etc/apt/sources.list.d/docker.list
+3.更新下apt列表：sudo apt-get update
+4.安装docker：sudo apt-get install docker-engine
+
+3. 设置root 用户
+参考网页http://blog.csdn.net/sunxiaoju/article/details/51993091
+
+4设置电脑绑定静态ip
+点击网络
+设置ip 192.168.1.108
+网关和dns 192.168.1.1
+
+5.复制镜像和配置文件
+打开计算机 位置下usr文件夹 右键新建docker 和dockerfile文件夹
+把haotian.tar文件复制到docker文件夹
+把Dockerfile 文件和init.sh文件复制到dockerfile文件夹
+
+6.导入父镜像
+命令行下
+cd /usr/docker
+执行命令
+cat haotian.tar | sudo docker import - ubuntu/haotian:v1
+导入完成后执行
+docker images 查看导入的docker镜像
+
+7.dockerfile导入子镜像
+cd /usr/dockerfile
+执行docker build -t haotian:0.1  /usr/dockerfile
+成功后执行
+docker images 可以看到已经有两个镜像
+
+8.创建容器
+docker run -d -p 3000:3000 -p 3306:3306 -p 9101:9101 -p 9081:9081 --name web haotian:0.1
+
+输入docker ps -a 可以看到新建的容器
+
+然后打开浏览器输入 localhost:9081
+如果可以打开系统,说明部署成功
+
+9.设置容器开机启动
+输入命令
+vi /etc/rc.local
+
+编辑文本
+
+先输入i
+然后再exit之前输入 docker start web
+然后按下键盘的Esc键
+然后输入wq 保存即可
