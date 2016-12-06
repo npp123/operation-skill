@@ -1,0 +1,35 @@
+
+docker ps -a
+看下当前容器的id
+
+该容器id 前两个是b5
+
+先进去容器内
+docker exec -ti b5 /bin/bash
+
+输入service jetty stop 停止服务器
+然后进入
+cd /opt/jetty/webapps/
+
+
+然后删除程序包
+rm haotian-0.0.1.war
+然后退出r容器
+Ctrl + d
+
+然后输入
+docker inspect -f '{{.Id}}' b5 
+获取容器全名
+
+
+再进入
+程序包所在路径
+docker cp haotian-0.0.1.war 
+b5ea0055a55e0d4b0b200f084d931f1c1071dd0a8f9d9c73ffb676924059b047:/opt/jetty/webapps
+
+红字是容器id的全名
+
+然后进入这个容器
+docker exec -ti b5 /bin/bash
+开启服务器
+service jetty start
