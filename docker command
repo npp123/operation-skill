@@ -1,0 +1,78 @@
+apt-get -install apt-transport-https
+
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 36A1D7869245C8950F966E92D8576A8BA88D21E9
+
+bash -c "echo deb https://get.docker.io/ubuntu docker main > /etc/apt/sources.list.d/docker.list"
+
+apt-get update
+
+apt-get install -y lxc-docker
+
+
+启动镜像
+docker run -ti readytalk/nodejs /bin/bash
+
+删除镜像
+docker rmi name
+
+查看所有容器
+docker ps -a
+
+删除容器
+docker rm -f 
+
+进入镜像
+docker run -ti ubuntu:14.04 /bin/bash
+
+查看外网ip
+echo `nc ns1.dnspod.net 6666`
+
+进入容器
+docker exec -ti a8 /bin/bash
+
+共享文件目录
+docker run -v /usr:/usr -i -t ubuntu:14.04 bash
+
+递归复制
+cp -r
+
+获取容器全名
+docker inspect -f '{{.Id}}' a8   
+
+通过通道复制
+cp file.txt /var/lib/docker/aufs/mnt/a815c0cc507917761b01f1f4db59df5b0c2f2812cf73a757fbbf53e1e22e7e1c/opt/jetty
+
+提交一个运行中的容器为镜像
+docker commit containerid foo/live
+
+运行镜像并添加端口
+docker run -ti -d -p 127.0.0.1:5000:5000 --name web ubuntu:14.04 /bin/bash
+
+iptables -t nat -A  DOCKER -p tcp --dport 9001 -j DNAT --to-destination 192.168.0.104:9000
+
+查看容器ip
+docker inspect web|grep -i add  
+
+导出容器成镜像
+docker export a8 >test.tar
+
+查看iptables
+iptables -L -n
+
+导入镜像
+cat test.tar | sudo docker import - ubuntu/haotian:v1
+
+
+iptables -t nat -A PREROUTING -d 139.224.80.231 -p tcp --dport 9000 -j DNAT --to-destination 192.168.0.104:3000
+
+dockerfile 创建镜像
+sudo docker build -t haotian:0.1 /usr/dockerfile
+
+//守护态运行
+sudo docker run --name web -d haotian:0.1 /bin/sh -c "while true; do echo hello world; sleep 1; done"
+
+docker run -t -i -p 2223:2223 -p 5000:5000 haotian:0.1
+
+docker 重启
+/etc/init.d/docker start
+
